@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Vidyard Lightbox Autoplay Example</title>
+</head>
+<style type="text/css">
+	html, body {
+		height: 100%
+	}
+	body {
+		display: flex;
+    align-items: center;
+    justify-content: center;
+	}
+</style>
+
+<body>
+    <script type="text/javascript">
+    // Parsing the query string 
+    function get_parameter_by_name(name) {
+        name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+        var regexS = "[\\?&]" + name + "=([^&#]*)";
+        var regex = new RegExp(regexS);
+        var results = regex.exec(window.location.search);
+        if (results == null) {
+            return "";
+        } else {
+            return results[1];
+        }
+    }
+    </script>
+    <script type="text/javascript">
+    // Determine the value of the playvideo parameter and launch the player if 1
+    var urlParam = get_parameter_by_name("playvideo");
+
+    function videoCheck() {
+        if (urlParam[0] == "1") {
+            // Get this next value from the lightbox embed code below, within onclick. It should look something like this but with a different UUID:
+            fn_vidyard_zWBijBmas996PnnZr3d1RL();
+        }
+    }
+    </script>
+    <div class="player-container">
+    	<script type="text/javascript" id="vidyard_embed_code_zWBijBmas996PnnZr3d1RL" src="//play.vidyard.com/zWBijBmas996PnnZr3d1RL.js?v=3.1.1&type=lightbox"></script>
+	    <div class="outer_vidyard_wrapper">
+	        <div class="vidyard_wrapper" onclick="fn_vidyard_zWBijBmas996PnnZr3d1RL();"><img width="360" src="//play.vidyard.com/zWBijBmas996PnnZr3d1RL.jpg?" alt="A vBook (Video Book) Is The New Alternative To An eBook">
+	            <div class="vidyard_play_button"><a href="javascript:void(0);"></a></div>
+	        </div>
+	    </div>
+    </div>
+    <script type="text/javascript">
+    // On page load, check the playvideo parameter value
+    window.onload = function() {
+        videoCheck();
+    }
+    </script>
+</body>
+
+</html>
