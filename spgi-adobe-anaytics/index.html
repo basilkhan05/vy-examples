@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Adobe Analytics Test</title>
+    <script type="text/javascript">
+    var listofEventsTriggered = []
+    var vidyardProgressEventsCallback = function(result) {
+        var eventTriggeredString = result.chapter.toString() + result.event.toString() + result.player.uuid
+        if (listofEventsTriggered.indexOf(eventTriggeredString) > -1) {
+            return
+        }
+        listofEventsTriggered.push(eventTriggeredString)
+        var video_attributes = result.player.metadata.chapters_attributes[result.chapter].video_attributes
+        switch (result.event) {
+            case 1:    
+            case 10:
+            case 20:
+            case 30:
+            case 40:
+            case 50:
+            case 60:
+            case 70:
+            case 80:
+            case 90:
+                console.log(video_attributes.name+"| Watched " + result.event + "% of video");
+                break;
+            default:
+                break;
+        }
+    }
+
+    function getVidyardEmbedCode(uuid) {
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.id = 'vidyard_embed_code_' + uuid;
+        script.src = 'https://play.vidyard.com/' + uuid + '.js?v=3.1&type=inline';
+
+        // initialize new player
+        Vidyard._players[uuid] = new Vidyard.player(uuid)
+        VidyardProgressEvents(function(result){ return vidyardProgressEventsCallback(result)}, [1, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]);
+        return script;
+    }
+
+    function changePlayer(uuid) {
+        document.getElementById("video_container").innerHTML = "";
+        document.getElementById("video_container").append(getVidyardEmbedCode(uuid));
+    }
+    </script>
+</head>
+
+<body>
+    <script type="text/javascript" id="vidyard_embed_code_ZoD6PuZBHMDCq1d6L1wsDt" src="//play.vidyard.com/ZoD6PuZBHMDCq1d6L1wsDt.js?v=3.1.1&type=inline"></script>
+    <div style="height: 400px;">
+        <div id="video_container"></div>
+    </div>
+    
+    <!-- Dynamically Produce Vidyard Embed Codes -->
+    <script type="text/javascript">
+      window.onload = function() {
+          document.getElementById("video_container").append(getVidyardEmbedCode('k5VMx9FSKVRN1xmaHDU3M2'));
+      };
+  	</script>
+    <a href="javascript:void(0);" onclick="changePlayer('WWr1fWRS-Zei6Ztn1ayMsQ');">Change Player</a>
+
+    <!-- Include scripts below Vidyard embed code (in this order) for pushing Milestone Data-->
+    <!-- Vidyard Api -->
+    <script src="//play.vidyard.com/v0/api.js"></script>
+    <!-- Vidyard Progress Events -->
+    <script type='text/javascript' src="//play.vidyard.com/v1/progress-events.js"></script>
+    <!-- Include custom scripts after all integration scripts -->
+    <script type='text/javascript'>
+    VidyardProgressEvents(function(result){ return vidyardProgressEventsCallback(result) }, [1, 10, 20, 30, 40, 50, 60, 70, 80, 90]);
+    </script>
+</body>
+
+</html>
